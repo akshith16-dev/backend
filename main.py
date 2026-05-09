@@ -2,7 +2,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
+# 1. Add 'ai' to the import:
+from routers import auth, students, ai
 import os
+app.include_router(ai.router)
 
 load_dotenv()
 from database import Base, engine
