@@ -3,14 +3,15 @@ from fastapi import APIRouter ,Depends,HTTPException
 from pydantic import BaseModel,Field 
 from google import genai
 from google.genai import types
-
+from dotenv import load_dotenv
 from dependencies import get_current_user
 
 router = APIRouter(prefix="/ai",tags=["AI"])
+load_dotenv()  # This must come BEFORE os.getenv(...)
 
-if not os.getenv("GEMINI_API_KEY"):
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+if not GEMINI_API_KEY:
     raise RuntimeError("GEMINI_API_KEY is not set in .env")
-
 client = genai.Client(api_key="AIzaSyDA-vyKfwsJjmzh1LWTxBvde7rNICjmImg")
 
 MODEL_NAME="gemini-3.1-flash-lite"
@@ -20,7 +21,7 @@ GENERATION_CONFIG = types.GenerateContentConfig(
     max_output_tokens=512,
 )
 
-S# routers/ai.py — improved, production-ready SYSTEM_CONTEXT
+# routers/ai.py — improved, production-ready SYSTEM_CONTEXT
 # (client and MODEL_NAME are already defined at module level)
 
 SYSTEM_CONTEXT = """You are a Python and full stack development tutor
